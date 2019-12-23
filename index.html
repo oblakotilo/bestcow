@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    img.pau {
+      transform: rotate(180deg);
+      display: block;
+    }
+    img.pau2 {
+      transform: rotate(0deg);
+      display: block;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body style="background-color: chartreuse;">
+  <img class="hidden" id="cow" width="100%" src="Za9e.gif">
+
+  <script type="text/javascript">
+    const { searchParams } = new URL(window.location.href);
+    const id = searchParams.get('id');
+    const limit = Number(searchParams.get('limit'));
+    const el = document.getElementById('cow');
+
+    setInterval(() => {
+      fetch(`https://us-central1-forward-karma-262917.cloudfunctions.net/cow?id=${id}`)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res)
+
+          return res;
+        })
+        .then(res => {
+          if (res.likeCount > limit) {
+            el.classList.add('pau');
+            el.classList.remove('pau2');
+          } else {
+            el.classList.add('pau2');
+            el.classList.remove('pau');
+          }
+        });
+    }, 5000);
+  </script>
+</body>
+</html>
