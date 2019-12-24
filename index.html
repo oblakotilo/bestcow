@@ -27,12 +27,7 @@
   <img class="hidden" id="cow" height="100%" src="Za9e.gif">
 
   <script type="text/javascript">
-    const { searchParams } = new URL(window.location.href);
-    const id = searchParams.get('id');
-    const limit = Number(searchParams.get('limit'));
-    const el = document.getElementById('cow');
-
-    setInterval(() => {
+    const getHandler = (limit, el) => () => {
       fetch(`https://europe-west2-forward-karma-262917.cloudfunctions.net/cow?id=${id}`)
         .then(res => res.json())
         // .then(res => {
@@ -49,7 +44,16 @@
             el.classList.remove('pau');
           }
         });
-    }, 7000);
+    }
+
+    const { searchParams } = new URL(window.location.href);
+    const id = searchParams.get('id');
+    const limit = Number(searchParams.get('limit'));
+    const el = document.getElementById('cow');
+    const handler = getHandler(limit, el);
+
+    handler();
+    setInterval(handler, 7000);
   </script>
 </body>
 </html>
