@@ -121,7 +121,7 @@
             left_el.innerHTML = (limit - res.likeCount) + ' ' + text_start;
           }
 
-          const current = (limit - res.likeCount) >= 0 ? Math.floor((res.likeCount/ limit) * 100) : 0;
+          const current = (limit - res.likeCount) >= 0 ? Math.floor(((limit - res.likeCount) / limit) * 100) : 0;
 
           bar_el.style.background = `linear-gradient(90deg, red ${current}%, white ${current}%)`;
           current_el.innerHTML = res.likeCount;
