@@ -113,7 +113,7 @@
         //   return res;
         // })
         .then(res => {
-          if (res.likeCount > limit) {
+          if (res.likeCount >= limit) {
             img_el.classList.add('pau');
             img_el.classList.remove('pau2');
             left_el.innerHTML = text_end;
@@ -150,7 +150,7 @@
     };
 
     handler.call(context);
-    setInterval(handler, 7000, context);
+    setInterval(handler, 10000, context);
   </script>
 </body>
 </html>
