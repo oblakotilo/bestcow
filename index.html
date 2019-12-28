@@ -10,12 +10,35 @@
       overflow: hidden;
     }
 
+    #cow {
+      padding-left: 30px;
+      padding-top: 30px;
+    }
+
+    #cow.pau {
+      padding-top: 10px;
+    }
+
     img.pau {
       transform: scaleX(-1) rotate(180deg);
     }
 
     img.pau2 {
       transform: scaleX(-1) rotate(0deg);
+    }
+
+    #hat.pau {
+      padding: 170px 100px;
+      position: absolute;
+      transform: rotate(165deg) scale(-0.7, 0.7);
+      z-index: 99;
+    }
+
+    #hat.pau2 {
+      padding: 0 270px 0 0;
+      position: absolute;
+      transform: rotate(165deg) scale(0.7, -0.7);
+      z-index: 99;
     }
 
     .hidden {
@@ -26,7 +49,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 560px;
+      width: 600px;
       margin-top: 20px;
     }
 
@@ -36,7 +59,7 @@
 
     .text {
       letter-spacing: 1.2;
-      font-size: 32px;
+      font-size: 34px;
       font-family: monospace;
       color: white;
       text-shadow: 1px 1px 0 #000,
@@ -79,10 +102,13 @@
 
 <body>
   <div class="hidden">
-    <img id="cow" width="560px" src="Za9e.gif">
+    <div>
+      <img id="hat" width="200px" style="position: absolute;" src="hat.png">
+      <img id="cow" width="480px" src="Za9e.gif">
+    </div>
 
     <div class="parent">
-      <div class="column text" style="color: black; margin: 0 5px 0 0;">❤</div>
+      <div class="column text" style="color: white; margin: 0 5px 0 0;">❤</div>
       <div id="current" class="column text"></div>
       <div id="bar" class="column bar"><div id="left" class="text" style="font-size: 28px;"></div></div>
       <div id="limit" class="column text"></div>
@@ -101,23 +127,23 @@
         left_el,
         limit_el,
         bar_el,
+        hat_el,
       } = this;
 
       fetch(`https://europe-west2-forward-karma-262917.cloudfunctions.net/cow?id=${id}`)
         .then(res => res.json())
-        // .then(res => {
-        //   console.log(res)
-        //
-        //   return res;
-        // })
         .then(res => {
           if (res.likeCount >= limit) {
             img_el.classList.add('pau');
             img_el.classList.remove('pau2');
+            hat_el.classList.add('pau');
+            hat_el.classList.remove('pau2');
             left_el.innerHTML = text_end;
           } else {
             img_el.classList.add('pau2');
             img_el.classList.remove('pau');
+            hat_el.classList.add('pau2');
+            hat_el.classList.remove('pau');
             left_el.innerHTML = (limit - res.likeCount) + ' ' + text_start;
           }
 
@@ -128,7 +154,10 @@
           limit_el.innerHTML = limit;
         })
         .then(() => {
-          img_el.parentElement.classList.remove('hidden');
+          img_el.parentElement.parentElement.classList.remove('hidden');
+        })
+        .catch(() => {
+          // do nothing
         });
     }
 
@@ -145,6 +174,7 @@
       left_el: document.getElementById('left'),
       limit_el: document.getElementById('limit'),
       bar_el: document.getElementById('bar'),
+      hat_el: document.getElementById('hat'),
     };
 
     handler.call(context);

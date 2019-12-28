@@ -2,11 +2,11 @@ const http = require('http');
 const https = require('https');
 const { parse } = require('url');
 
-const get_api_url = (id) => `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=AIzaSyBZYeP92jwctxWVI5WwHHP_t0M-xUH4Pf8&part=statistics`;
+const get_api_url = (id, key) => `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${key}&part=statistics`;
 
 function handle_request(id, resolve, reject) {
   https
-    .get(get_api_url(id), (res) => {
+    .get(get_api_url(id, process.env.API_KEY), (res) => {
       let rawData = '';
 
       res.setEncoding('utf8');
